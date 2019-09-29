@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Nav from "./components/Header/Navbar";
 import Form1 from "./components/Form/Form";
 import Error from "./components/Form/Error";
+import Clima from "./components/Clima/Clima"
 
 import "./App.css";
 
@@ -23,7 +24,7 @@ function App() {
         let getApi = await fetch(url);
         let res = await getApi.json();
 
-        console.log(res);
+        // console.log(res);
         setResult(res);
       };
 
@@ -52,9 +53,11 @@ function App() {
   if (error) {
     // Existe error, mostrarlo
     component = <Error message="Ambos campos son obligatorios" />;
+  } else if(result.cod === "404") {
+    component = <Error message="La ciudad no existe en el registro" />
   } else {
     // Mostrar el clima
-    component = null;
+    component = <Clima data={result} />;
   }
 
   return (
